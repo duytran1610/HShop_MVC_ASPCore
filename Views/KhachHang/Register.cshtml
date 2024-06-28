@@ -1,0 +1,72 @@
+﻿@model HShop.ViewModels.RegisterVM
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <h1 class="mb-4">Register</h1>
+        @* use multipart/form-data when your form includes any <input type="file"> elements *@
+        <form asp-action="Register" enctype="multipart/form-data">
+            <div class="row g-5">
+                <div class="col-md-12 col-lg-6 col-xl-7">
+                    <div class="form-item">
+                        <label asp-for="@Model.MaKh" class="form-label my-3"></label><sup>*</sup>
+                        <input asp-for="@Model.MaKh" class="form-control">
+                        <span asp-validation-for="@Model.MaKh" class="text-danger"></span>
+                    </div>
+                    <div class="form-item">
+                        <label asp-for="@Model.MatKhau" class="form-label my-3"></label><sup>*</sup>
+                        <input asp-for="@Model.MatKhau" class="form-control">
+                        <span asp-validation-for="@Model.MatKhau" class="text-danger"></span>
+                    </div>
+                    <div class="form-item">
+                        <label asp-for="@Model.HoTen" class="form-label my-3"></label><sup>*</sup>
+                        <input asp-for="@Model.HoTen" class="form-control">
+                        <span asp-validation-for="@Model.HoTen" class="text-danger"></span>
+                    </div>
+                    <div class="form-item">
+                        <label asp-for="@Model.GioiTinh" class="form-label my-3"></label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="@Model.GioiTinh" id="inlineRadio1" value="True">
+                                <label class="form-check-label" for="inlineRadio1">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" asp-for="@Model.GioiTinh" id="inlineRadio2" value="False">
+                                <label class="form-check-label" for="inlineRadio2">Female</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label asp-for="@Model.NgaySinh" class="form-label my-3"></label><sup>*</sup>
+                        <input asp-for="@Model.NgaySinh" class="form-control">
+                    </div>
+                    <div class="form-item">
+                        <label asp-for="@Model.DiaChi" class="form-label my-3"></label>
+                        <input asp-for="@Model.DiaChi" class="form-control">
+                        <span asp-validation-for="@Model.DiaChi" class="text-danger"></span>
+                    </div>
+                    <div class="form-item">
+                        <label asp-for="@Model.DienThoai" class="form-label my-3"></label><sup>*</sup>
+                        <input asp-for="@Model.DienThoai" class="form-control">
+                        <span asp-validation-for="@Model.DienThoai" class="text-danger"></span>
+                    </div>
+                    <div class="form-item">
+                        <label asp-for="@Model.Email" class="form-label my-3"></label><sup>*</sup>
+                        <input asp-for="@Model.Email" class="form-control">
+                        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-item">
+                        <label for="Hinh" class="form-label my-3">Image</label>
+                        <input type="file" name="Hinh" class="form-control">
+                    </div>
+                    <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                        <button type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Register</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

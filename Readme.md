@@ -37,3 +37,16 @@
 - Tạo class CartViewComponet trong ViewComponets
 - Tạo view cho hàm Invoke của CartViewComponet
 - Import view này vào _LayoutCustomer
+
+## Chức năng Đăng ký Thành viên
+* Tạo class RegisterVM trong ViewModels
+* Tạo class KhachHangController and View Register của nó
+* Tạo class MySetting trong Utils để lưu trữ các chức năng bổ sung như tạo Key Random khi người dùng đăng kí, upload file image
+* Sử dụng AutoMapper để chuyển đổi dữ liệu giữa 2 object
+    * Tạo class AutoMapperProfile kế thừa từ class Profile
+    
+        Sử dụng method CreateMap
+
+        Nếu thuộc tính trong object src and dest không cùng tên thì dùng method ForMember để config
+    * Đăng kí service AddAutoMapper
+* Tạo class DataEncryptionExtensions trong Utils để mã hóa mật khẩu
