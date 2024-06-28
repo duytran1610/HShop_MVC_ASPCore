@@ -30,3 +30,10 @@
 - Tạo ViewModel CartItemVM and Controller CartController
 - Xây dựng action and view Index cho CartController
 - Xây dựng action Add and Remove để redirect to action Index trong CartController
+
+## Thông tin Giỏ hàng
+- Tạo class MyConst để lưu trữ các const trong folder Utils
+- Tạo class CartModel trong ViewModels
+- Tạo class CartViewComponet trong ViewComponets
+- Tạo view cho hàm Invoke của CartViewComponet
+- Import view này vào _LayoutCustomer

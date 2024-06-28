@@ -10,13 +10,11 @@ namespace HShop.Controllers
     {
         private readonly HshopContext db;
 
-        const string CART_KEY = "MYCART";
-
         public List<CartItemVM> Cart
         {
             get
             {
-                return HttpContext.Session.Get<List<CartItemVM>>(CART_KEY) ?? new List<CartItemVM>();
+                return HttpContext.Session.Get<List<CartItemVM>>(MyConst.CART_KEY) ?? new List<CartItemVM>();
             }
         }
 
@@ -61,7 +59,7 @@ namespace HShop.Controllers
                 item.SoLuong += quantity;
             }
 
-            HttpContext.Session.Set<List<CartItemVM>>(CART_KEY, gioHang);
+            HttpContext.Session.Set<List<CartItemVM>>(MyConst.CART_KEY, gioHang);
 
             return RedirectToAction("Index");
         }
@@ -74,7 +72,7 @@ namespace HShop.Controllers
             if (item != null)
             {
                 gioHang.Remove(item);
-                HttpContext.Session.Set<List<CartItemVM>>(CART_KEY, gioHang);
+                HttpContext.Session.Set<List<CartItemVM>>(MyConst.CART_KEY, gioHang);
             }
 
             return RedirectToAction("Index");
