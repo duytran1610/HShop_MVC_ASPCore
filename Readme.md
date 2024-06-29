@@ -50,3 +50,12 @@
         Nếu thuộc tính trong object src and dest không cùng tên thì dùng method ForMember để config
     * Đăng kí service AddAutoMapper
 * Tạo class DataEncryptionExtensions trong Utils để mã hóa mật khẩu
+
+## Chức năng Đăng nhập
+* Fix action Register (kiểm tra sự tồn tại Khách hàng trước khi gửi)
+* Tạo class LoginVM trong ViewModels
+* Tạo view và action Login cho KhachHangController
+* Add cookie authentication
+* Trong action Login: Create an authentication cookie (Sử dụng ClaimsPrincipal и объекты Claim)
+* Tạo view và action Profile cho KhachHangController (sử dụng Authorize)
+* Tạo action Logout cho KhachHangController (sử dụng Authorize)
