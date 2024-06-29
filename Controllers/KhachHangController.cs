@@ -102,7 +102,7 @@ namespace HShop.Controllers
                         {
                             new Claim(ClaimTypes.Email, khachHang.Email),
                             new Claim(ClaimTypes.Name, khachHang.HoTen),
-                            new Claim("CustomerID", khachHang.MaKh),
+                            new Claim(MyConst.CLAM_CUSTOMER_ID, khachHang.MaKh),
 
                             // claim - role dynamic
                             new Claim(ClaimTypes.Role, "Customer")

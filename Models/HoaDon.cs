@@ -30,6 +30,7 @@ public partial class HoaDon
     public string? MaNv { get; set; }
 
     public string? GhiChu { get; set; }
+    public string? DienThoai { get; set; }
 
     public virtual ICollection<ChiTietHd> ChiTietHds { get; set; } = new List<ChiTietHd>();
 

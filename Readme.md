@@ -59,3 +59,10 @@
 * Trong action Login: Create an authentication cookie (Sử dụng ClaimsPrincipal и объекты Claim)
 * Tạo view và action Profile cho KhachHangController (sử dụng Authorize)
 * Tạo action Logout cho KhachHangController (sử dụng Authorize)
+
+## Chức năng Thanh toán COD
+* Thêm cột DienThoai cho table HoaDon, chỉnh sửa lại class HoaDon và HShopContext
+* Tạo Action [HttpGet] and View Checkout cho CartController
+* Tạo class CheckoutVM
+* Tạo Action [HttpPost] Checkout và đặt lại giá trị session lưu trữ giá trị giỏ hàng sau khi checkout
+* Tạo View success cho CartController để xác nhận hoàn thành checkout
