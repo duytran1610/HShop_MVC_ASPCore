@@ -40,9 +40,10 @@
                 <div class="form-item">
                     <textarea name="GhiChu" class="form-control" spellcheck="false" cols="30" rows="11" placeholder="Ghí Chú"></textarea>
                 </div>
-                <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                <div class="row g-4 text-center align-items-center justify-content-center pt-4 mb-3">
                     <button type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place Order</button>
                 </div>
+                <div id="paypal-button-container" style="max-width:1000px;"></div>
             </form>
             <div class="col-md-12 col-lg-6 col-xl-5">
                 <div class="table-responsive">
@@ -162,6 +163,7 @@
 </div>
 <!-- Checkout Page End -->
 @section Scripts {
+    <script src="https://www.paypal.com/sdk/js?client-id=@ViewBag.PaypalClientId"></script>
     <script>
         $(document).ready(function () {
             $("#GiongKhachHang").change(function () {
@@ -175,5 +177,92 @@
                 }
             });
         });
+
+        paypal.Buttons({
+            style: {
+                color: 'silver',
+                layout: 'vertical'
+            },
+            // function sets up the details of the transaction, including the amount and line item details
+            async createOrder() {
+                try {
+                    const response = await fetch("/Cart/create-paypal-order", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        }
+                    });
+
+                    const orderData = await response.json();
+
+                    if (orderData.id) {
+                        return orderData.id;
+                    }
+                    const errorDetail = orderData?.details?.[0];
+                    const errorMessage = errorDetail
+                        ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+                        : JSON.stringify(orderData);
+
+                    throw new Error(errorMessage);
+                }
+                catch(error) {
+                    alert(error.message);
+                    // resultMessage(`Could not initiate PayPal Checkout...<br><br>${error}`);
+                }                
+            },
+            // function Capture the funds from the transaction. Show message
+            async onApprove(data, actions) {
+                try {
+                    const response = await fetch(`/Cart/capture-paypal-order?orderId=${data.orderID}`, {
+                        method: "POST"
+                    });
+
+                    const orderData = await response.json();
+                    // Three cases to handle:
+                    //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                    //   (2) Other non-recoverable errors -> Show a failure message
+                    //   (3) Successful transaction -> Show confirmation or thank you message
+
+                    const errorDetail = orderData?.details?.[0];
+
+                    if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
+                        // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                        // recoverable state, per
+                        // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
+                        return actions.restart();
+                    } else if (errorDetail) {
+                        // (2) Other non-recoverable errors -> Show a failure message
+                        throw new Error(`${errorDetail.description} (${orderData.debug_id})`);
+                    } else if (!orderData.purchase_units) {
+                        throw new Error(JSON.stringify(orderData));
+                    } else {
+                        // (3) Successful transaction 
+                        /*
+                        // C1 -> Show confirmation or thank you message
+                        const transaction =
+                            orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
+                            orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
+                        resultMessage(
+                            `Transaction ${transaction.status}: ${transaction.id}<br>
+                        <br>See console for all available details`
+                        );
+                        console.log(
+                            "Capture result",
+                            orderData,
+                            JSON.stringify(orderData, null, 2)
+                        );
+                        */
+
+                        // C2 -> go to another URL:  actions.redirect('thank_you.html'); or window.location.href = ...
+                        window.location.href = "/Cart/PaymentSuccess";
+                    }
+                } catch (error) {
+                    alert(error.message);
+                    // resultMessage(
+                    //     `Sorry, your transaction could not be processed...<br><br>${error}`
+                    // );
+                }
+            }
+        }).render('#paypal-button-container');
     </script>
 }

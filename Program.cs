@@ -38,6 +38,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/AccessDenied";
     });
 
+// Inject PaypalClient Service
+builder.Services.AddSingleton(x => new PaypalClient(
+    builder.Configuration["PaypalOptions:ClientId"],
+    builder.Configuration["PaypalOptions:ClientSecret"],
+    builder.Configuration["PaypalOptions:Mode"]
+));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

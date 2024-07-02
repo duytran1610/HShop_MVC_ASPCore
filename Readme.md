@@ -66,3 +66,30 @@
 * Tạo class CheckoutVM
 * Tạo Action [HttpPost] Checkout và đặt lại giá trị session lưu trữ giá trị giỏ hàng sau khi checkout
 * Tạo View success cho CartController để xác nhận hoàn thành checkout
+
+## Chức năng Thanh toán PAYPAL
+* Chuẩn bị:
+    * Đăng ký tài khoản Paypal
+    * Vào https://developer.paypal.com/
+    * Tạo tài khoản sandbox để demo: Sandbox accounts - PayPal Developer (gồm 2 loại Personal - người mua, Business - người bán)
+    * Tạo mới App ở mục Apps & Credentials Applications - PayPal Developer hoặc đứng ngay trong tài khoản Business để tạo.
+    Sau đó copy App ID, App secret key để dành để thêm vào project.
+    * Tham khảo: https://developer.paypal.com/sdk/js
+* Sơ đồ biểu thị quá trình checkout
+
+    ![alt text](image.png)
+* Thêm vào file appsettings.json thông tin PaypalOptions(ClientId, ClientSecret,Mode)
+* Tạo class PaypalClient chứa các method (Authenticate, CreateOrder, CaptureOrder) và các class liên quan đến đối tượng.
+
+    Links: [REST APIs][apis], [Integrate Checkout][checkout]
+
+    [apis]: https://developer.paypal.com/api/rest/
+
+    [checkout]: https://developer.paypal.com/studio/checkout/standard/integrate
+* Inject service PaypalClient in program.cs
+* Gán cho ViewBag.PaypalClientId trong action HttpGet Checkout in CartController
+* Trong view Checkout của CartController:
+    * [Add the SDK](https://developer.paypal.com/sdk/js/configuration/)
+    * Tạo thẻ div có id = paypal-button-container
+    * [JavaScript SDK reference](https://developer.paypal.com/sdk/js/reference/): sử dụng paypal.Buttons(options)
+* Tạo region Paypal payment gồm 2 action HttpPost chính CreatePaypalOrder và CapturePaypalOrder trong CartController
